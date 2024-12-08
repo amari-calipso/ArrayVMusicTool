@@ -1,5 +1,5 @@
-# Copyright (c) 2023 thatsOven
-# 
+# Copyright (c) 2023 Amari Calipso
+#
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
 # files (the "Software"), to deal in the Software without
@@ -8,7 +8,7 @@
 # copies of the Software, and to permit persons to whom the
 # Software is furnished to do so, subject to the following
 # conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
 
@@ -25,12 +25,12 @@ from sys  import argv
 from mido import MidiFile
 
 # install the patch for more accurate timings overall and better sounds with this program
-ARRAYV_PATCH = False 
+ARRAYV_PATCH = False
 # if you use ArrayV 4.0
 ARRAYV_4_0 = False
-# max is 15, but ArrayV sometimes doesn't handle clearMark calls in time, 
+# max is 15, but ArrayV sometimes doesn't handle clearMark calls in time,
 # so this is a precaution to avoid ArrayIndexOutOfBoundsException
-MAX_NOTES = 14 
+MAX_NOTES = 14
 MAX_LINES = 256
 INDENT = " " * 4
 CODE = """
@@ -92,7 +92,7 @@ class ArrayVEvent:
                 if ARRAYV_PATCH:
                     return INDENT * 2 + f"Delays.sleep({round(self.value * 1000, 4)});\n", 1
                 else:
-                    return INDENT * 2 + f"Thread.sleep({round(self.value * 1000)});\n", 1 
+                    return INDENT * 2 + f"Thread.sleep({round(self.value * 1000)});\n", 1
 
 class ArrayVMusicTool:
     def readMidi(self, fileName):
@@ -106,7 +106,7 @@ class ArrayVMusicTool:
                 else: type_ = message.type
 
                 events.append(MidiEvent(
-                    type_, message.note, 
+                    type_, message.note,
                     message.channel, message.time
                 ))
             elif message.type == "end_of_track":
@@ -120,12 +120,12 @@ class ArrayVMusicTool:
         events.pop(-1)
 
         return events
-    
+
     def mergeDelays(self, events):
         tmp = []
         i = 0
         while i < len(events):
-            while i < len(events) and events[i].type != "wait": 
+            while i < len(events) and events[i].type != "wait":
                 tmp.append(events[i])
                 i += 1
 
@@ -136,7 +136,7 @@ class ArrayVMusicTool:
 
             if time != 0:
                 tmp.append(ArrayVEvent("wait", time))
-            
+
         return tmp
 
     def convert(self, fileName):
@@ -180,9 +180,9 @@ class ArrayVMusicTool:
                         oldPlayingPairs = playing[mx][1]
                         discarded += oldPlayingPairs
                         playing[mx] = [sound, [pair], 0]
-                            
+
                     events.append(ArrayVEvent("mark", sound, idx))
-            elif pair in discarded: 
+            elif pair in discarded:
                 # if note to turn off was already discarded, ignore
                 discarded.remove(pair)
             else:
@@ -240,8 +240,8 @@ class ArrayVMusicTool:
 
 if __name__ == "__main__":
     if len(argv) == 1:
-        print("ArrayV music tool - thatsOven")
-    else:   
+        print("ArrayV music tool")
+    else:
         if "--patched" in argv:
             argv.remove("--patched")
             ARRAYV_PATCH = True

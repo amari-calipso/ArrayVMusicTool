@@ -12,7 +12,7 @@ To properly run the program, you will need to install the `mido` Python module (
 
 # Command line arguments
 - `--patched`
-    - Tells the program that the target uses a patched ArrayV sound system (from [patches](https://github.com/thatsOven/ArrayVMusicTool/tree/main/patches). Credits to PCBoyGames for 4.0 compatibility).
+    - Tells the program that the target uses a patched ArrayV sound system (from [patches](https://github.com/amari-calipso/ArrayVMusicTool/tree/main/patches)).
     - **Usage:** --patched
 - `-v4`
     - Tells the program that the taget uses ArrayV version 4. The generated code will be slightly different to account for that.
